@@ -4,7 +4,6 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-
 app.use(cors());
 
 const server = require('http').Server(app);
@@ -16,20 +15,20 @@ io.on('connection', (socket) => {
   });
 });
 
-mongoose.connect('mongodb+srv://react:react@cluster0-grbln.mongodb.net/omnistack?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://react:react@cluster0.j1jly.mongodb.net/omnistack?retryWrites=true&w=majority', {
   useNewUrlParser: true,
-});
+  useUnifiedTopology: true,
+})
 
 // middleware
 app.use((req, res, next) => {
   req.io = io;
   return next();
 });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
-
-
 app.use(require('./routes'));
 
-server.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3001);

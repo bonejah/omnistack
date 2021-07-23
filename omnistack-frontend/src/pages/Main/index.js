@@ -4,16 +4,24 @@ import api from '../../services/api';
 import logo from '../../assets/rocketseat_logo.png';
 import { Container } from './style';
 
-export default class Main extends Component {
-  state = {
-    newBox: ''
+class Main extends Component {
+  constructor(){
+    super();
+
+    this.state = {
+      newBox: ''
+    }
   }
 
-  handleSubmit = async e => {
-    e.preventDefault(); 
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('title', this.state.newBox)
+
     const response = await api.post('boxes', {
       title: this.state.newBox,
     });
+
+    console.log('response', response)
     this.props.history.push(`/box/${response.data._id}`);
   }
 
@@ -31,9 +39,11 @@ export default class Main extends Component {
             value={this.state.newBox}
             onChange={this.handleInputChange}
           />
-          <button type="submit">Criar</button>`
+          <button type="submit">Criar</button>
         </form>
       </Container>
     );
   }
 }
+
+export default Main;
